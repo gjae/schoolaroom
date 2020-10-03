@@ -15,8 +15,8 @@ trait UseUuid
      */
     protected static function booted()
     {
-        static::creating(function ($people) {
-            $people->id = (string) Str::uuid();
+        static::creating(function (Model $model) {
+            $model->{$model->getKeyName()} = (string) Str::uuid();
         });
     }
 }

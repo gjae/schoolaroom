@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\UseUuid;
+use App\Models\Scopes\PensumActive;
 
 class Degree extends Model
 {
@@ -52,5 +53,27 @@ class Degree extends Model
     public function hasDependencies()
     {
         return !is_null($this->is_dependent);
+    }
+
+    /**
+     * Retrieve pensums
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function pensums()
+    {
+        return $this->hasMany(\App\Models\Pensum::class)
+            ->whereIsCurrent(true);
+    }
+
+    /**
+     * Return all pensums from some degree
+     *
+     * @return 
+     */
+    public function allPensums()
+    {
+        return $this->hasMany(\App\Models\Pensum::class)
+            ->withoutGlobalScope(PensumActive::class);
     }
 }
