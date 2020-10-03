@@ -22,7 +22,9 @@ class CurricularUnitFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->words(3, true),
+            'code' => uniqid(),
+            'credit_units' => 7
         ];
     }
 }

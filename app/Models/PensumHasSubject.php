@@ -17,10 +17,6 @@ class PensumHasSubject extends Model
         'assignable_prelation_id'
     ];
 
-    /**
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function pensum()
     {
         return $this->belongsTo(\App\Models\Pensum::class, 'pensum_id');

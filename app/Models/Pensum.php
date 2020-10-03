@@ -15,6 +15,7 @@ class Pensum extends Model
     public $increments = false;
     protected $keyType = 'string';
     protected $fillable = [
+        'id',
         'degree_id',
         'approved_at',
         'code',

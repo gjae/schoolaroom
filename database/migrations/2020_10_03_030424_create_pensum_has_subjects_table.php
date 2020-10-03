@@ -20,7 +20,12 @@ class CreatePensumHasSubjectsTable extends Migration
             $table->uuidMorphs('assignable');
             $table->nullableUuidMorphs('assignable_prelation');
 
-            $table->foreign('pensum_id')->references('id')->on('pensums')->onDelete('cascade');
+            $table
+                ->foreign('pensum_id')
+                ->references('id')
+                ->on('pensums')
+                ->onDelete('cascade');
+
         });
     }
 

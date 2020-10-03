@@ -14,6 +14,7 @@ class CreatePensumsTable extends Migration
     public function up()
     {
         Schema::create('pensums', function (Blueprint $table) {
+            
             $table->uuid('id');
             $table->timestamps();
             $table->softDeletes();
@@ -23,7 +24,7 @@ class CreatePensumsTable extends Migration
             $table->boolean('is_active')->default(true);
             $table->boolean('is_current')->default(true);
             
-            $table->index('id');
+            $table->primary('id');
             $table->foreign('degree_id')->references('id')->on('degrees')->onDelete('cascade');
         });
     }
