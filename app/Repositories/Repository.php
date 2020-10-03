@@ -110,6 +110,15 @@ abstract class Repository implements RepositoryInterface
         return $this;
     }
 
+    /**
+     * Return true if repository has somevalid model
+     *
+     * @return boolean
+     */
+    public function hasModel()
+    {
+        return !is_null($this->model) && !is_null($this->model->id);
+    }
 
     protected abstract function newInstance() : Model;
 }

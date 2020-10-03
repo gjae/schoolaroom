@@ -2,17 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\ModelHasUser;
+use App\Models\Degree;
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ModelHasUserFactory extends Factory
+class DegreeFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = ModelHasUser::class;
+    protected $model = Degree::class;
 
     /**
      * Define the model's default state.
@@ -22,7 +23,9 @@ class ModelHasUserFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'degree' => $this->faker->firstNameMale,
+            'degree_opened_at' => null,
+            'mode' => Arr::random(['BIANNUAL', 'ANNUAL', 'QUARTERLY']),
         ];
     }
 }
