@@ -33,4 +33,12 @@ class Student extends Model
         return $this->belongsTo(\App\Models\People::class, 'people_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function periods()
+    {
+        return $this->hasMany(\App\Models\StudentInscription::class, 'student_id');
+    }
+
 }

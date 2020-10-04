@@ -10,6 +10,7 @@ class PensumHasSubject extends Model
     use HasFactory;
 
     protected $fillable = [
+        'order',
         'pensum_id',
         'assignable_type',
         'assignable_id',

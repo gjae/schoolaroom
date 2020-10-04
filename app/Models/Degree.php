@@ -76,4 +76,14 @@ class Degree extends Model
         return $this->hasMany(\App\Models\Pensum::class)
             ->withoutGlobalScope(PensumActive::class);
     }
+
+    /**
+     * Retrieve periods
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function periods()
+    {
+        return $this->hasMany(\App\Models\Period::class, 'degree_id');
+    }
 }

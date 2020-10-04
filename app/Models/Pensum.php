@@ -45,4 +45,15 @@ class Pensum extends Model
     {
         return $this->belongsTo(\App\Models\Degree::class, 'degree_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function periods()
+    {
+        return $this->hasMany(
+            \App\Models\Period::class,
+            'pensum_id'
+        );
+    }
 }

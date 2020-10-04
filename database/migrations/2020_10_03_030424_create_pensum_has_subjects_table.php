@@ -16,6 +16,7 @@ class CreatePensumHasSubjectsTable extends Migration
         Schema::create('pensum_has_subjects', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->integer('order')->default(1);
             $table->uuid('pensum_id');
             $table->uuidMorphs('assignable');
             $table->nullableUuidMorphs('assignable_prelation');
