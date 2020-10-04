@@ -52,4 +52,30 @@ class PeriodTest extends TestCase
         $this->assertTrue($period->is_closed);
         $this->assertFalse($period->is_opened);
     }
+
+    /** @test */
+    public function it_retrieve_only_openeds_from_openeds_scope()
+    {
+        Period::factory()->count(2)->create();
+        Period::factory()->count(7)->create(['period_closed_at' => now()]);
+
+        $this->assertCount(3, Period::openeds()->get());
+    }
+
+    /** @test */
+    public function it_retrieve_only_closed_periods_from_closeds_scope()
+    {
+        Period::factory()->count(3)->create(['period_closed_at' => now()]);
+
+        $this->assertCount(3, Period::closeds()->get());
+    }
+
+    /** @test */
+    public function it_mark_period_as_closed()
+    {
+        Period::factory()->create()->markAsClosed();
+        Period::factory()->create()->markAsClosed(now()->yesterday());
+
+        $this->assertCount(2, Period::closeds()->get());
+    }
 }

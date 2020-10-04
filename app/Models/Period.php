@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\UseUuid;
+use App\Contracts\Closeable;
 
-class Period extends Model
+class Period extends Model implements Closeable
 {
     use HasFactory, UseUuid, SoftDeletes;
 
@@ -28,6 +29,24 @@ class Period extends Model
         'period_closed_at',
     ];
 
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOpeneds($query)
+    {
+        return $query->whereNull('period_closed_at');
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCloseds($query)
+    {
+        return $query->whereNotNull('period_closed_at');
+    }
     /**
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -49,6 +68,20 @@ class Period extends Model
             \App\Models\Pensum::class,
             'pensum_id'
         );
+    }
+
+    /**
+     * Mark period as closed
+     *
+     * @param DateTime|null $closed_at
+     * @return void
+     */
+    public function markAsClosed(?\DateTime $closed_at = null)
+    {
+        $this->period_closed_at = $closed_at ?? now();
+        $this->save();
+
+        return $this;
     }
 
     /**
@@ -81,6 +114,15 @@ class Period extends Model
     public function getIsClosedAttribute() : bool
     {
         return !is_null($this->period_closed_at);
+    }
+
+    /**
+     * @param string $old
+     * @return void
+     */
+    public function setPeriodDescriptionAttribute($old)
+    {
+        $this->attributes['period_description'] = trimAndUpper($old);
     }
 
 }
