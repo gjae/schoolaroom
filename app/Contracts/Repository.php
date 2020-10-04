@@ -8,7 +8,7 @@ interface Repository
 {
     public function create(array $recordData) : ?Model;
 
-    public function findById(int $id);
+    public function findById($id);
 
     public function update(array $newRecordData) : Model;
 

@@ -21,7 +21,6 @@ class PeriodRepository extends Repository
         return new Period();
     }
 
-
     /**
      * Create a new period to degree and pensum
      *

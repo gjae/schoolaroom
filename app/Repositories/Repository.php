@@ -19,6 +19,26 @@ abstract class Repository implements RepositoryInterface
     }
 
 
+
+    /**
+     * @param string $method
+     * @param array $args
+     * @return mixed
+     */
+    public function __call($method, $args = [])
+    {
+        return call_user_func_array([$this->getModel(), $method], $args);
+    }
+    
+    /**
+     * @param string $attribute
+     * @return void
+     */
+    public function __get($attribute)
+    {
+        return $this->getModel()->{$attribute};
+    }
+
     public function all()
     {
         if( is_null($this->getModel()->id) )
@@ -47,7 +67,7 @@ abstract class Repository implements RepositoryInterface
      * @param integer $id
      * @return Model|null
      */
-    public function findById(int $id)
+    public function findById($id)
     {
         if( !is_null( $this->getModel()->id ) )
             $this->setModel( $this->newInstance() );
