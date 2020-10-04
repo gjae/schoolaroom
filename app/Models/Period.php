@@ -52,6 +52,14 @@ class Period extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relatioons\HasMany
+     */
+    public function groups()
+    {
+        return $this->hasMany(\App\Models\StudentGroup::class, 'period_id');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function inscriptions()

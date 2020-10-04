@@ -37,6 +37,14 @@ class Pensum extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relatioons\HasMany
+     */
+    public function groups()
+    {
+        return $this->hasMany(\App\Models\StudentGroup::class, 'pensum_id');
+    }
+
+    /**
      * Get degree own of this pensum
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

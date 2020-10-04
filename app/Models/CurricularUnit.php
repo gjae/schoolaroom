@@ -13,7 +13,7 @@ class CurricularUnit extends Model implements Assignable
 {
     use HasFactory, SoftDeletes, UseUuid, OnPensum;
 
-    public $increments = false;
+    public $incrementing = false;
     protected $keyType = 'string';
     protected $fillable = [
         'name',

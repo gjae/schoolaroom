@@ -11,9 +11,10 @@ class StudentInscription extends Model
 {
     use HasFactory, UseUuid, SoftDeletes;
 
-    public $increments = false;
+    public $incrementing = false;
     protected $keyType = 'string';
     protected $dates = ['deleted_at'];
+    protected $appends = ['matters'];
     protected $files = [
         'student_id',
         'period_id',
@@ -34,5 +35,26 @@ class StudentInscription extends Model
     public function period()
     {
         return $this->belongsTo(\App\Models\Period::class, 'period_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function timeTable()
+    {
+        return $this->hasMany(
+            \App\Models\StudentInscriptionGroup::class,
+            'student_inscription_id'
+        );
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function getMattersAttribute()
+    {
+        return $this->timeTable->map(function($matter){
+            return $matter->matter->matter;
+        });
     }
 }
