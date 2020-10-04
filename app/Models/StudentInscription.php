@@ -15,7 +15,7 @@ class StudentInscription extends Model
     protected $keyType = 'string';
     protected $dates = ['deleted_at'];
     protected $appends = ['matters'];
-    protected $files = [
+    protected $fillable = [
         'student_id',
         'period_id',
         'period_avg',

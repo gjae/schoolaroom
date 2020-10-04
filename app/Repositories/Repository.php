@@ -64,7 +64,7 @@ abstract class Repository implements RepositoryInterface
     /**
      * Busca un nuevo registro en la BD a partir de su ID
      *
-     * @param integer $id
+     * @param mixed $id
      * @return Model|null
      */
     public function findById($id)

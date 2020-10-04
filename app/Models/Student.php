@@ -41,4 +41,19 @@ class Student extends Model
         return $this->hasMany(\App\Models\StudentInscription::class, 'student_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function periodInscriptionRecord()
+    {
+        return $this->hasManyThrough(
+            \App\Models\Period::class,
+            \App\Models\StudentInscription::class,
+            'student_id',
+            'id',
+            'id',
+            'period_id'
+        );
+    }
+
 }

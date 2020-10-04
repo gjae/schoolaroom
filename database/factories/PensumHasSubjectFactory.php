@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\PensumHasSubject;
+use App\Models\CurricularUnit;
+use App\Models\Pensum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PensumHasSubjectFactory extends Factory
@@ -22,7 +24,9 @@ class PensumHasSubjectFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'assignable_id' => CurricularUnit::factory()->create()->id,
+            'pensum_id' => Pensum::factory(),
+            'assignable_type' => CurricularUnit::class,
         ];
     }
 }

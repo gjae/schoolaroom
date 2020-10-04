@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\StudentInscription;
+use App\Models\Period;
 use App\Models\CurricularUnit;
 use App\Models\StudentInscriptionGroup;
 use App\Models\GroupHoraryMatter;
@@ -35,6 +36,19 @@ class StudentInscriptionTest extends TestCase
         $this->assertTrue(
             $inscription->matters->first()->is(CurricularUnit::first())
         );
+    }
+
+    /** @test */
+    public function it_validate_inscription_period_history()
+    {
+        StudentInscriptionGroup::factory()->create()->inscription;
+        $student = Student::first();
+        $period = Period::first();
+
+        $this->assertInstanceOf(Collection::class, $student->periodInscriptionRecord);
+        $this->assertCount(1, $student->periodInscriptionRecord);
+        $this->assertInstanceOf(Period::class, $student->periodInscriptionRecord->first());
+        $this->assertEquals($period->id, $student->periodInscriptionRecord->first()->id);
     }
 
 }
