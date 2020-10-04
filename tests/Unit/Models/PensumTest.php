@@ -18,7 +18,7 @@ class PensumTest extends TestCase
     public function setUp() : void
     {
         parent::setUp();
-        $this->pensum = Pensum::factory()->make();
+        $this->pensum = Pensum::factory()->create();
     }
 
     /** @test */
@@ -31,7 +31,7 @@ class PensumTest extends TestCase
     /** @test */
     public function it_retrieve_current_pensums()
     {
-        $degree = Degree::first();
+        $degree = Degree::factory()->create();
         Pensum::factory()->create(['degree_id' => $degree->id]);
         Pensum::factory()->count(2)->create([
             'degree_id' => $degree->id,

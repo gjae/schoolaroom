@@ -11,7 +11,7 @@ class Period extends Model
 {
     use HasFactory, UseUuid, SoftDeletes;
 
-    public $increments = false;
+    public $incrementing = false;
     protected $keyType = 'string';
     protected $dates = ['deleted_at', 'period_opened_at', 'period_closed_at'];
     protected $appends = ['is_opened', 'is_closed'];
@@ -54,7 +54,7 @@ class Period extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function periods()
+    public function inscriptions()
     {
         return $this->hasMany(\App\Models\StudentInscription::class, 'period_id');
     }
@@ -64,7 +64,7 @@ class Period extends Model
      */
     public function getIsOpenedAttribute() : bool
     {
-        return is_null($this->period_closed_at);
+        return !$this->is_closed;
     }
 
     /**
@@ -72,7 +72,7 @@ class Period extends Model
      */
     public function getIsClosedAttribute() : bool
     {
-        return is_null($this->period_closed_at);
+        return !is_null($this->period_closed_at);
     }
 
 }

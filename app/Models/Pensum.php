@@ -12,7 +12,7 @@ class Pensum extends Model
 {
     use HasFactory;
     
-    public $increments = false;
+    public $incrementing = false;
     protected $keyType = 'string';
     protected $fillable = [
         'id',

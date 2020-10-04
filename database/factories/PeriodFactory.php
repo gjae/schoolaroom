@@ -25,7 +25,7 @@ class PeriodFactory extends Factory
     {
         return [
             'degree_id' => Degree::factory(),
-            'pensum_id' => Pensum::factory(),
+            'pensum_id' => Pensum::factory()->create()->id,
             'period_description' => $this->faker->words(3, true),
             'is_special' => false,
         ];

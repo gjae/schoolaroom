@@ -62,7 +62,7 @@ class Degree extends Model
      */
     public function pensums()
     {
-        return $this->hasMany(\App\Models\Pensum::class)
+        return $this->hasMany(\App\Models\Pensum::class, 'degree_id')
             ->whereIsCurrent(true);
     }
 
