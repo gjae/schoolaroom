@@ -4,7 +4,9 @@ namespace Tests\Unit\Models;
 
 use Tests\TestCase;
 use App\Models\Student;
-use APp\Models\People;
+use App\Models\People;
+use App\Models\Period;
+use App\Models\StudentInscription;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 

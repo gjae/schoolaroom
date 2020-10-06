@@ -24,7 +24,7 @@ class Student extends Model
         'total_uc_approveds',
         'people_id',
     ];
-
+    
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
