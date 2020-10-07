@@ -90,10 +90,16 @@ class StudentRepository extends Repository
         return $groups->filter(function ($group) use ($timeInit, $timeEnd) {
             $init = $group->matter->init_time->format('H:m');
             $finish = $group->matter->finish_time->format('H:m');
-            return (
-                \timeBetweenOr($timeInit, $init,  $finish) || 
-                \timeBetweenOr($timeEnd, $init, $finish)
-            );
+            
+            if (\timeBetweenAnd($timeInit, $init, $finish)) {
+                return true;
+
+            } else if(\timeBetweenAnd($timeEnd, $init, $finish)) {
+                return true;
+            }
+
+            return false;
+            
         })->isNotEmpty();
     }
 

@@ -30,7 +30,20 @@ function timeBetweenOr(
 
     $itTime = Carbon::createFromTimeString($time);
     $start = Carbon::createFromTimeString($betweenInit);
-    $end = Carbon::createFromTimeString($betweenInit);
+    $end = Carbon::createFromTimeString($betweenEnd);
 
     return ($itTime->gt($start) || $itTime->gt($end));
+}
+
+function timeBetweenAnd(
+string $time, 
+string $betweenInit, 
+string $betweenEnd
+) :bool {
+
+    $itTime = Carbon::createFromTimeString($time);
+    $start = Carbon::createFromTimeString($betweenInit);
+    $end = Carbon::createFromTimeString($betweenEnd);
+
+    return $itTime->between($start, $end);
 }

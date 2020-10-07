@@ -147,20 +147,20 @@ class StudentTest extends TestCase
             )
         );
 
-        $this->assertTrue(
+        $this->assertFalse(
             $this->repository->isBusySchedule(
                 $period,
-                $matter->init_time->format('H:m'),
-                $matter->finish_time->format('H:m')
+                $matter->init_time->addHour(5)->format('H:m'),
+                $matter->finish_time->addHour(6)->format('H:m')
             )
         );
 
-        // $this->assertFalse(
-        //     $this->repository->isBusySchedule(
-        //         $period,
-        //         $matter->init_time->addHour(5)->format('H:m'),
-        //         $matter->finish_time->addHour(6)->format('H:m')
-        //     )
-        // );
+        $this->assertTrue(
+            $this->repository->isBusySchedule(
+                $period,
+                $matterTest->init_time->format('H:m'),
+                $matterTest->finish_time->format('H:m')
+            )
+        );
     }
 }
