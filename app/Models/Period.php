@@ -116,6 +116,7 @@ class Period extends Model implements Closeable
         return !is_null($this->period_closed_at);
     }
 
+
     /**
      * @param string $old
      * @return void
