@@ -9,6 +9,7 @@ class StudentGroup extends Model
 {
     use HasFactory;
     protected $table = 'student_groups';
+    protected $with = ['pensum', 'period'];
     protected $fillable = [
         'group',
         'max_quotas',

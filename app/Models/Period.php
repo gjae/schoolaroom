@@ -89,7 +89,7 @@ class Period extends Model implements Closeable
      */
     public function groups()
     {
-        return $this->hasMany(\App\Models\StudentGroup::class, 'period_id');
+        return $this->hasMany(\App\Models\StudentGroup::class, 'period_id', 'id');
     }
 
     /**
@@ -113,7 +113,10 @@ class Period extends Model implements Closeable
      */
     public function getIsClosedAttribute() : bool
     {
-        return !is_null($this->period_closed_at);
+        if (is_null($this->period_closed_at)) 
+            return false;
+
+        return $this->period_closed_at->lte(now());
     }
 
 

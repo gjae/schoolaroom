@@ -14,6 +14,7 @@ class Pensum extends Model
     
     public $incrementing = false;
     protected $keyType = 'string';
+    protected $with = ['degree'];
     protected $fillable = [
         'id',
         'degree_id',
@@ -34,6 +35,14 @@ class Pensum extends Model
         static::creating(function (Pensum $pensum) {
             $pensum->id = (string) Str::uuid();
         });
+    }
+
+    public function matters()
+    {
+        return $this->hasMany(
+            \App\Models\PensumHasSubject::class,
+            'pensum_id'
+        );
     }
 
     /**

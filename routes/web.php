@@ -33,4 +33,6 @@ Route::middleware(('auth:sanctum'))->group(function(){
             'destroy' => 'periods.destroy'
         ]);
 
+    Route::resource('periods.groups', \App\Http\Controllers\GroupController::class);
+
 });

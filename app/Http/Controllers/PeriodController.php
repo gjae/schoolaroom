@@ -7,6 +7,7 @@ use App\Models\Degree;
 use App\Models\Pensum;
 use Illuminate\Http\Request;
 use App\Repositories\PeriodRepository;
+use App\Http\Requests\CreatePeriodRequest;
 
 class PeriodController extends Controller
 {
@@ -35,7 +36,7 @@ class PeriodController extends Controller
                         'description' => $period->period_description,
                         'special' => $period->is_special,
                         'opened_at' => $period->period_opened_at->format('M Y'),
-                        'closed_at' => $period->period_closed_at ? $period->period_closed_at->format('M Y'): '??'
+                        'closed_at' => $period->period_closed_at ? $period->period_closed_at->format('M Y') : '??'
                     ];
                 })
             ]
@@ -52,12 +53,12 @@ class PeriodController extends Controller
         return inertia(
             'Periods/Create',
             [
-                'degrees' => Degree::all()->map(fn($degree) => [
+                'degrees' => Degree::all()->map(fn ($degree) => [
                     'id' => $degree->id,
                     'mode' => $degree->mode,
                     'degree' => $degree->degree
                 ]),
-                'pensums' => Pensum::all()->map(fn($pensum) => [
+                'pensums' => Pensum::all()->map(fn ($pensum) => [
                     'id' => $pensum->id,
                     'code' => $pensum->code,
                     'degree' => $pensum->degree->degree
@@ -72,9 +73,18 @@ class PeriodController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreatePeriodRequest $request)
     {
-        //
+        try {
+            $this->periodRepository->create($request->all());
+            return redirect()->route('periods.index')->with('success', 'Periodo registrado exitosamente');
+        } catch (\Exception $e) {
+            $request->session()->flash('errors', [
+                'message' => $e->getMessage()
+            ]);
+
+            return back();
+        }
     }
 
     /**
@@ -96,7 +106,25 @@ class PeriodController extends Controller
      */
     public function edit(Period $period)
     {
-        //
+        return inertia(
+            'Periods/Edit',
+            [
+                'period' => function() use($period) {
+                    return [
+                        'id' => $period->id,
+                        'period_description' => $period->period_description,
+                        'period_opened_at' => $period->period_opened_at,
+                        'period_closed_at' => $period->period_closed_at,
+                        'groups' => $period->groups->toArray(),
+                        'pensum' => [
+                            'id' => $period->pensum->id,
+                            'code' => $period->pensum->code,
+                            'degree' => $period->degree->toArray(),
+                        ]
+                    ];
+                }
+            ]
+        );
     }
 
     /**
