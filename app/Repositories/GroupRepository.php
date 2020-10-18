@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\StudentGroup;
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Models\GroupHoraryMatter;
@@ -46,13 +47,50 @@ class GroupRepository extends Repository
             new StudentGroup([
                 'group' => $code,
                 'max_quotas' => $quota,
-                'pensum_id' => $pensum 
+                'pensum_id' => $pensum
             ])
         );
 
         return $this->setModel($newGroup);
     }
 
+    /**
+     *
+     * @param string $curricularUnit
+     * @param string $initTime
+     * @param string $finishTime
+     * @param integer $weekDay
+     * @return self
+     */
+    public function schedule(
+        string $curricularUnit,
+        string $initTime,
+        string $finishTime,
+        int $weekDay = 1
+    ) {
+
+        $carbonInitTime = Carbon::createFromTimeString($initTime);
+        $carbonFinishTime = Carbon::createFromTimeString($finishTime); 
+
+        if (is_null($this->getModel())) {
+            throw new ModelNotFoundException("Group is not available");
+        } 
+
+        if ($carbonInitTime->isAfter($carbonFinishTime)) {
+            throw new \Exception("Finish time cant be greater of init time");
+        }
+
+        $schedule = $this->getModel()->horary()->save(
+            new GroupHoraryMatter([
+                'curricular_unit_id' => $curricularUnit,
+                'finish_time' => $carbonFinishTime->format('H:m'),
+                'init_time' => $carbonInitTime->format('H:m'),
+                'week_day' => $weekDay
+            ])
+        );
+
+        return $this;
+    }
 
     /**
      * @param \App\Models\Period $period
@@ -65,7 +103,7 @@ class GroupRepository extends Repository
         return $this;
     }
 
-    protected function newInstance() : Model
+    protected function newInstance(): Model
     {
         return new StudentGroup();
     }
