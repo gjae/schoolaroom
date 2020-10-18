@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\StudentGroup;
 use App\Repositories\PeriodRepository;
+use App\Repositories\GroupRepository;
+use App\Http\Requests\CreateGroupRequest;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -11,9 +15,14 @@ class GroupController extends Controller
 
     private $periodRepository;
 
-    public function __construct(PeriodRepository $periodRepository)
-    {
+    private ?GroupRepository $groupRepository = null;
+
+    public function __construct(
+        PeriodRepository $periodRepository,
+        GroupRepository $groupRepository
+    ) {
         $this->periodRepository = $periodRepository;
+        $this->groupRepository = $groupRepository;
     }
     /**
      * Display a listing of the resource.
@@ -55,12 +64,36 @@ class GroupController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\CreateGroupRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateGroupRequest $request)
     {
-        return dd($request->all());
+
+        DB::transaction(function () use ($request) {
+
+            $this
+                ->groupRepository
+                ->newGroup(
+                    $request->group,
+                    $request->pensum_id,
+                    $request->max_quotas,
+                    $request->period_id
+                );
+
+            collect($request->horary)->each(
+                fn ($horary) => $this->groupRepository->schedule(
+                    $horary['curricular_unit_id'],
+                    $horary['init_time']['hour'],
+                    $horary['finish_time']['hour'],
+                    $horary['init_time']['day']
+                )
+            );
+
+        });
+
+
+        return Redirect::route('periods.edit', ['period' => $request->period_id], 303);
     }
 
     /**
