@@ -26,6 +26,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@inertiajs/progress": "^0.1.2",
         "moment": "^2.29.1",
         "vue-cal": "^3.8.1"
     }

@@ -94,6 +94,7 @@
 import AppLayout from '../../Layouts/AppLayout'
 import JetButton from '../../Jetstream/Button'
 import JetNavLink from '../../Jetstream/NavLink'
+import { InertiaProgress } from '@inertiajs/progress'
 import Header from './Header'
 
 export default {
@@ -119,7 +120,13 @@ export default {
             this.$inertia.visit('/periods/create')
         },
         editPeriodClick (id) {
-            this.$inertia.visit(`/periods/${id}/edit`)
+            InertiaProgress.init()
+            this.$inertia.visit(`/periods/${id}/edit`, {
+                onProgress: progress => {
+                    console.log("progress", progress)
+                    InertiaProgress.init({ delay: 250, showSpinner: false})
+                },
+            })
         }
     }
 }

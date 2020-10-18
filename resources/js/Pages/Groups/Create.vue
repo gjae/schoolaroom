@@ -218,6 +218,7 @@ export default {
 
             console.log(data)
 
+            this.$inertia.post(`/periods/${this.period.id}/groups`, data);
         }
     }
 }
