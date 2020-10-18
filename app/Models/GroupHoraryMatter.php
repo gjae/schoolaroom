@@ -14,6 +14,7 @@ class GroupHoraryMatter extends Model
         'curricular_unit_id',
         'finish_time',
         'init_time',
+        'week_day',
     ];
 
     protected $casts = [
